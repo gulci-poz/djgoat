@@ -1,15 +1,21 @@
 from selenium import webdriver
+import unittest
 
-browser = webdriver.Firefox()
+class NewVisitorTest(unittest.TestCase):
+    def setUp(self):
+        self.browser = webdriver.Firefox()
+        # self.browser.implicitly_wait(3)
 
-# jeśli Firefox ESR nie jest domyślnym Firefoksem
-# from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
-# browser = webdriver.Firefox(firefox_binary=FirefoxBinary(firefox_path='c:\\firefox\\path'))
+    def tearDown(self):
+        self.browser.quit()
 
-# Janek wchodzi na stronę nowej aplikacji to-do
-browser.get('http://localhost:8000')
+    def test_can_start_a_list_and_retrieve_it_later(self):
+        # Janek wchodzi na stronę nowej aplikacji to-do
+        self.browser.get('http://localhost:8000')
 
-# dostrzega w tytule strony, że jest to aplikacja to-do
-assert 'To-Do' in browser.title, "Browser title was " + browser.title
+        # dostrzega w tytule strony, że jest to aplikacja to-do
+        self.assertIn('To-Do', self.browser.title)
+        self.fail('Finish the test!')
 
-browser.quit()
+if __name__ == '__main__':
+    unittest.main()
