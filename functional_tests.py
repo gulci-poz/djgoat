@@ -38,7 +38,8 @@ class NewVisitorTest(unittest.TestCase):
         # w przypadku metody bez "s" dostaniemy wyjątek
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(
-            any(row.text == '1: Shopping' for row in rows)
+            any(row.text == '1: Shopping' for row in rows),
+            'New to-do item did not appear in table'
         )
 
         # oprócz tego wyświetlane jest pole do wprowadzenia kolejnego zadania
