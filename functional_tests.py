@@ -28,7 +28,7 @@ class NewVisitorTest(unittest.TestCase):
         )
 
         # wpisuje "Shopping"
-        inputbox.send_keys('Shoppping')
+        inputbox.send_keys('Shopping')
 
         # naciska ENTER, strona się uaktualnia i wyświetla wprowadzone zadanie
         inputbox.send_keys(Keys.ENTER)
@@ -40,14 +40,22 @@ class NewVisitorTest(unittest.TestCase):
         # szukamy wielu elementów, możemy dostać pustą listę
         # w przypadku metody bez "s" dostaniemy wyjątek
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-            any(row.text == '1: Shopping' for row in rows),
-            'New to-do item did not appear in table -- its text was:\n%s'
-            % table.text
-        )
+        self.assertIn('Shopping', [row.text for row in rows])
 
         # oprócz tego wyświetlane jest pole do wprowadzenia kolejnego zadania
         # Janek wpisuje "Sprzątanie"
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Sprzątanie')
+        inputbox.send_keys(Keys.ENTER)
+
+        # na stronie widzimy dwa nowe elementy dodane przez Janka
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn('Shopping', [row.text for row in rows])
+        self.assertIn('Sprzątanie', [row.text for row in rows])
+
+        # Janek zastanawia się, czy jego lista zostanie zapamiętana
+        # Janek widzi unikalny url
 
         # latarnia, mamy pewność, że do tego miejsca wszystko idzie dobrze
         self.fail('Finish the test!')
