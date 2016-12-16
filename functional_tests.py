@@ -33,6 +33,9 @@ class NewVisitorTest(unittest.TestCase):
         # naciska ENTER, strona się uaktualnia i wyświetla wprowadzone zadanie
         inputbox.send_keys(Keys.ENTER)
 
+        # import time
+        # time.sleep(10)
+
         table = self.browser.find_element_by_id('id_list_table')
         # szukamy wielu elementów, możemy dostać pustą listę
         # w przypadku metody bez "s" dostaniemy wyjątek
