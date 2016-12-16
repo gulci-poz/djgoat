@@ -37,7 +37,7 @@ class NewVisitorTest(unittest.TestCase):
 
         # naciska ENTER, strona się uaktualnia i wyświetla wprowadzone zadanie
         inputbox.send_keys(Keys.ENTER)
-        self.check_for_row_in_list_table('Shopping')
+        self.check_for_row_in_list_table('1: Shopping')
 
         # oprócz tego wyświetlane jest pole do wprowadzenia kolejnego zadania
         # Janek wpisuje "Sprzątanie"
@@ -46,8 +46,8 @@ class NewVisitorTest(unittest.TestCase):
         inputbox.send_keys(Keys.ENTER)
 
         # na stronie widzimy dwa nowe elementy dodane przez Janka
-        self.check_for_row_in_list_table('Shopping')
-        self.check_for_row_in_list_table('Sprzątanie')
+        self.check_for_row_in_list_table('1: Shopping')
+        self.check_for_row_in_list_table('2: Sprzątanie')
 
         # Janek zastanawia się, czy jego lista zostanie zapamiętana
         # Janek widzi unikalny url
