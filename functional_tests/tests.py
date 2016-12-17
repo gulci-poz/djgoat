@@ -48,8 +48,67 @@ class NewVisitorTest(LiveServerTestCase):
         self.check_for_row_in_list_table('1: Shopping')
         self.check_for_row_in_list_table('2: Sprzątanie')
 
+    def test_can_start_a_list_for_one_user(self):
+        self.browser.get(self.live_server_url)
+
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Ubieranie choinki')
+        inputbox.send_keys(Keys.ENTER)
+
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Porządki w szafie')
+        inputbox.send_keys(Keys.ENTER)
+
+        self.check_for_row_in_list_table('1: Ubieranie choinki')
+        self.check_for_row_in_list_table('2: Porządki w szafie')
+
+    def test_multiple_users_can_start_lists_at_different_urls(self):
+        self.browser.get(self.live_server_url)
+
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Ubieranie choinki')
+        inputbox.send_keys(Keys.ENTER)
+
+        self.check_for_row_in_list_table('1: Ubieranie choinki')
+
         # Janek zastanawia się, czy jego lista zostanie zapamiętana
         # Janek widzi unikalny url
 
-        # latarnia, mamy pewność, że do tego miejsca wszystko idzie dobrze
+        janek_list_url = self.browser.current_url
+        self.assertRegex(janek_list_url, '/lists/.+')
+
+        # # nowa sesja przeglądarki dla kolejnego użytkownika - Wojtka
+        self.browser.quit()
+        self.browser = webdriver.Firefox()
+
+        # Wojtek odwiedza stronę
+        self.browser.get(self.live_server_url)
+
+        # # sprawdzamy, czy Wojtek widzi pozycje listy Janka
+
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Ubieranie choinki', page_text)
+
+        # Wojtek dodaje nowy element
+
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Umyć samochód')
+        inputbox.send_keys(Keys.ENTER)
+        self.check_for_row_in_list_table('1: Umyć samochód')
+
+        # Wojtek zastanawia się, czy jego lista zostanie zapamiętana
+        # Wojtek widzi unikalny url
+
+        wojtek_list_url = self.browser.current_url
+        self.assertRegex(wojtek_list_url, '/lists/.+')
+
+        # # porównyjemy URL-e list Janka i Wojtka
+        self.assertNotEqual(janek_list_url, wojtek_list_url)
+
+        # # sprawdzenie zawartości bieżącej listy,
+        # # czy nie zawiera elementów poprzedniej listy
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Ubieranie choinki', page_text)
+        self.assertIn('Umyć samochód', page_text)
+
         self.fail('Finish the test!')
