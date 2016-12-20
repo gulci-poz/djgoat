@@ -3,14 +3,9 @@ from lists.models import Item
 
 
 class HomePageTest(TestCase):
-    # zamiast testowania stałych testujemy tylko implementację
     def test_uses_home_template(self):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home.html')
-
-    def test_only_saves_items_when_necessary(self):
-        self.client.get('/')
-        self.assertEqual(Item.objects.count(), 0)
 
 
 class ListViewTest(TestCase):
@@ -30,7 +25,7 @@ class ListViewTest(TestCase):
 
 class NewListTest(TestCase):
     def test_can_save_a_POST_request(self):
-        self.client.post('/', data={'item_text': 'A new list item'})
+        self.client.post('/lists/new', data={'item_text': 'A new list item'})
 
         self.assertEqual(Item.objects.count(), 1)
         new_item = Item.objects.first()
