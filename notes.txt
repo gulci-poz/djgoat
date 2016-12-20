@@ -11,7 +11,3 @@ jeśli będziemy mieli wyjątek w setUp, to tearDown nie uruchomi się
 
 # zapobiega pojawieniu się ostrzeżenia ResourceWarning
 unittest.main(warnings='ignore')
-
-# to-do: ch6 reverse lookup, ch6 testing-for-stupidity
-# powtórzyć zasady z poprzednich rozdziałów:
-# triangulation, three strikes then refactor, duplication oraz pozostałe
