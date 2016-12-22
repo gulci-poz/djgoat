@@ -11,3 +11,15 @@ jeśli będziemy mieli wyjątek w setUp, to tearDown nie uruchomi się
 
 # zapobiega pojawieniu się ostrzeżenia ResourceWarning
 unittest.main(warnings='ignore')
+
+# w przeglądarce lokalizacja static jest rozwiązywana zawsze od korzenia
+# dlatego potrzebujemy ścieżki /static/itd
+
+# pyCharm będzie brał pod uwagę swoją strukturę folderów,
+# przy ścieżce od /static nie rozpozna lokalizacji
+# musielibyśmy się cofnąć z templates do ../static/itd
+# wtedy dla URL-a nie w korzeniu style nie zostaną wczytane
+
+# ścieżki podajemy od /static i olewamy pyCharm
+# testy funkcjonalne wczytują style poprawnie, nawet ze ścieżką ../static
+# test przechodzi, a w rzeczywistości w aplikacji style nie są wczytywane
