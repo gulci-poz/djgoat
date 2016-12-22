@@ -4,6 +4,7 @@ from selenium.webdriver.common.keys import Keys
 
 
 class NewVisitorTest(LiveServerTestCase):
+
     def setUp(self):
         self.browser = webdriver.Firefox()
 
@@ -110,5 +111,31 @@ class NewVisitorTest(LiveServerTestCase):
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Ubieranie choinki', page_text)
         self.assertIn('Umyć samochód', page_text)
+
+    def test_layout_and_styling(self):
+        # Janek uruchamia stronę startową
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024, 768)
+
+        # dostrzega wyśrodkowany inputbox
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            512,
+            delta=10
+        )
+
+        # Janek wpisuje zadanie tworząc tym samym nową listę,
+        # po zaakceptowaniu widzi wyśrodkowany inputbox
+
+        inputbox.send_keys('testing')
+        inputbox.send_keys(Keys.ENTER)
+
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            512,
+            delta=10
+        )
 
         self.fail('Finish the test!')
