@@ -23,3 +23,10 @@ unittest.main(warnings='ignore')
 # ścieżki podajemy od /static i olewamy pyCharm
 # testy funkcjonalne wczytują style poprawnie, nawet ze ścieżką ../static
 # test przechodzi, a w rzeczywistości w aplikacji style nie są wczytywane
+
+manage collectstatic
+manage collectstatic --noinput
+# jeśli folder w STATIC_ROOT nie istnieje, to framework sam go utworzy
+# po wyłączeniu aplikacji w settings.py jej statyczne pliki nie będą kopiowane
+
+manage test functional-tests --liveserver=lists-staging.gulci.pl
