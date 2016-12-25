@@ -1,0 +1,11 @@
+[Unit]
+Description=Gunicron server for djgoat-staging
+
+[Service]
+Restar=on-failure
+User=gulci
+WorkingDirectory=/home/gulci/sites/djgoat-staging/source
+ExecStart=/home/gulci/sites/djgoat-staging/virtualenv/bin/gunicorn --bind unix:/tmp/djgoat-staging.socket djgoat.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
