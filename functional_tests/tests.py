@@ -17,8 +17,11 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
     @classmethod
     def tearDownClass(cls):
-        if cls.server_url == cls.live_server_url:
-            super().tearDownClass()
+        # jeśli używamy liveserver, to atrybut live_server_url nie istnieje
+        # (pochodzi on z pakietu do testowania)
+        if hasattr(cls, 'live_server_url'):
+            if cls.server_url == cls.live_server_url:
+                super().tearDownClass()
 
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -26,6 +29,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
     def tearDown(self):
         # błąd w Windows nie ustępuje po dodaniu refresh
         # self.browser.refresh()
+        # na liverver w ubuntu błąd nie występuje
         self.browser.quit()
 
     def check_for_row_in_list_table(self, row_text):
